@@ -1,0 +1,12 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "Book Your Doc",
+  "short_name": "Book Your Doc",
+  "version": "com.phonegap.bookyourdoc",
+  "description": "Encuentra tu doctor.",
+  "author": "ICONE Soluciones",
+  "icons": [],
+  "start_url": "index.html",
+  "theme_color": "#ee6e73"
+}

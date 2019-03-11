@@ -1,0 +1,61 @@
+{
+  "_from": "cordova-pdf-generator",
+  "_id": "cordova-pdf-generator@2.0.7",
+  "_inBundle": false,
+  "_integrity": "sha512-zsOczPzvGQR7bnVCQFxsJqeeOR/I1TD8AAjl1XvK35Wad+LeJ+cxEhH995an41o7/nHVCU50Kf1hOpvtLQ2qhw==",
+  "_location": "/cordova-pdf-generator",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-pdf-generator",
+    "name": "cordova-pdf-generator",
+    "escapedName": "cordova-pdf-generator",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-pdf-generator/-/cordova-pdf-generator-2.0.7.tgz",
+  "_shasum": "9d3ad799985e3dc626da62f6bb65b4f89534b540",
+  "_spec": "cordova-pdf-generator",
+  "_where": "/home/angel_romero/Documentos/ICONE/Aplicaciones/BookYourDoc",
+  "author": {
+    "name": "cesar"
+  },
+  "bugs": {
+    "url": "https://github.com/cesarvr/pdf-generator/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-pdf-generator",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "is a HTML to PDF (offline) Generator.",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.4.0"
+    }
+  ],
+  "homepage": "https://github.com/cesarvr/pdf-generator#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "license": "MIT",
+  "name": "cordova-pdf-generator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cesarvr/pdf-generator.git"
+  },
+  "version": "2.0.7"
+}

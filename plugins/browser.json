@@ -1,0 +1,34 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-pdf-generator": {
+      "PACKAGE_NAME": "com.phonegap.bookyourdoc"
+    },
+    "cordova-plugin-browsersync": {
+      "PACKAGE_NAME": "com.phonegap.bookyourdoc"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.phonegap.bookyourdoc"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.phonegap.bookyourdoc"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.phonegap.bookyourdoc"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.phonegap.bookyourdoc"
+    },
+    "phonegap-plugin-push": {
+      "SENDER_ID": "XXXXXXX",
+      "PACKAGE_NAME": "com.phonegap.bookyourdoc"
+    }
+  },
+  "dependent_plugins": {}
+}
