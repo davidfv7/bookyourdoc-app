@@ -50,7 +50,7 @@ function getPac() {
   html = $("body").jqmData("html") || "";
   var user = JSON.parse(localStorage.getItem("user"));
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: {
       patients: user.id
@@ -60,7 +60,7 @@ function getPac() {
       var docts = jQuery.parseJSON(data);
       for (var i = 0; i < docts.length; i++) {
         $("#pacUl").append(' <li><a class="showP" data-pac="' + docts[i][2] + '">' +
-          '<img src="http://localhost/bookyourdoc/img/' + docts[i][1] + '" />' +
+          '<img src="https://www.icone-solutions.com/doc/img/' + docts[i][1] + '" />' +
           '<span class="dname">' + docts[i][0] + '</span>' +
           '</a>' +
           '</li>')
@@ -124,7 +124,7 @@ function getHP(idc, date) {
       saturday,
       sunday;*/
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     async: false,
     data: {
@@ -232,7 +232,7 @@ function getPD() {
 
     $("#edadU").val(user.info.age);
 
-    $("#pacP").attr("src", "http://localhost/bookyourdoc/img/" + user.info.photo);
+    $("#pacP").attr("src", "https://www.icone-solutions.com/doc/img/" + user.info.photo);
     $('#sexoU').selectmenu('refresh', true);
     $('#ecU').selectmenu('refresh', true);
     $('#ahf').selectmenu('refresh', true);
@@ -243,7 +243,7 @@ function getPD() {
     $("#mailD").val(user.mail);
     $("#telD").val(user.info.phone);
 
-    $("#docP").attr("src", "http://localhost/bookyourdoc/img/"+user.info.photo);
+    $("#docP").attr("src", "https://www.icone-solutions.com/doc/img/"+user.info.photo);
   }
   /*$.ajax({
       url: "https://www.icone-solutions.com/doct/sqlOP.php",
@@ -350,7 +350,7 @@ function getIDa() {
 
   var user = JSON.parse(localStorage.getItem("user"));
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: {
       gd: user.id
@@ -408,7 +408,7 @@ function getSchedule() {
   datesArray = Array();
   var user = JSON.parse(localStorage.getItem("user"));
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: {
       gd: user.id
@@ -492,7 +492,7 @@ function getAgenda() {
   datesArray = Array();
   var user = JSON.parse(localStorage.getItem("user"));
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: {
       gdo: user.id
@@ -552,7 +552,7 @@ function paymentList() {
   var user = JSON.parse(localStorage.getItem("user"));
   var pl = user.id
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: {
       pl: pl
@@ -674,7 +674,7 @@ function pay() {
   form.append("patient", user.id);
   form.append("mcon", mcon);
   $.ajax({
-    url: "http://localhost/bookyourdoc/conekta.php",
+    url: "https://www.icone-solutions.com/doc/conekta.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -737,7 +737,7 @@ function paynt() {
   form.append("patient", user.id);
   form.append("mcon", mcon);
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -785,7 +785,7 @@ function updateD() {
   var form = new FormData($("#datosForm")[0]);
   form.append("userm", JSON.parse(localStorage.getItem("user")).id);
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -821,7 +821,7 @@ function updateDD() {
 
   form.append("userm", JSON.parse(localStorage.getItem("user")).id);
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -895,7 +895,7 @@ function updateCD() {
 
 
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -938,7 +938,7 @@ function reSchedule(appointment) {
   var form = new FormData($("#repForm")[0]);
 
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -978,7 +978,7 @@ function login() {
 
   //form.append("regID",localStorage.getItem('registrationId'));
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -1123,7 +1123,7 @@ function nuevac() {
 function register() {
   var form = new FormData($("#regForm")[0]);
   $.ajax({
-    url: "http://localhost/bookyourdoc/sqlOP.php",
+    url: "https://www.icone-solutions.com/doc/sqlOP.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -1268,7 +1268,7 @@ $(document).ready(function() {
 
 
       $.ajax({
-        url: "http://localhost/bookyourdoc/sqlOP.php",
+        url: "https://www.icone-solutions.com/doc/sqlOP.php",
         type: "POST",
         data: {
           citap: citap
@@ -1292,7 +1292,7 @@ $(document).ready(function() {
 
 
           $.ajax({
-            url: "http://localhost/bookyourdoc/sqlOP.php",
+            url: "https://www.icone-solutions.com/doc/sqlOP.php",
             type: "POST",
             data: {
               doctorR: jobj[0][6],
@@ -1698,7 +1698,7 @@ $(document).ready(function() {
       var doct = $("#doctMail").text();
 
       $.ajax({
-        url: "http://localhost/bookyourdoc/sqlOP.php",
+        url: "https://www.icone-solutions.com/doc/sqlOP.php",
         type: "POST",
         data: {
           checkds: check,
@@ -2044,7 +2044,7 @@ $(document).ready(function() {
     });
     var idug = JSON.parse(localStorage.getItem("user")).id;
     $.ajax({
-      url: "http://localhost/bookyourdoc/sqlOP.php",
+      url: "https://www.icone-solutions.com/doc/sqlOP.php",
       type: "POST",
       data: {
         doctor: d,
@@ -2124,7 +2124,7 @@ $(document).ready(function() {
       html: html
     });
     $.ajax({
-      url: "http://localhost/bookyourdoc/sqlOP.php",
+      url: "https://www.icone-solutions.com/doc/sqlOP.php",
       type: "POST",
       data: {
         doctors: 1
@@ -2134,7 +2134,7 @@ $(document).ready(function() {
         var docts = jQuery.parseJSON(data);
         for (var i = 0; i < docts.length; i++) {
           $("#doctUl").append(' <li><a class="showD" data-doct="' + docts[i][4] + '">' +
-            '<img src="http://localhost/bookyourdoc/img/' + docts[i][3] + '" />' +
+            '<img src="https://www.icone-solutions.com/doc/img/' + docts[i][3] + '" />' +
             '<span class="dname">' + docts[i][0] + '</span>' +
             '<span class="scp">' + docts[i][1] + '</span>' +
             '<span class="scp">Consulta: $' + docts[i][2] + '</span>' +
@@ -2211,7 +2211,7 @@ $(document).ready(function() {
       var check = $("#default_datetimepicker").val();
       var doct = $("#doctP").val();
       $.ajax({
-        url: "http://localhost/bookyourdoc/sqlOP.php",
+        url: "https://www.icone-solutions.com/doc/sqlOP.php",
         type: "POST",
         data: {
           checkds: check,
