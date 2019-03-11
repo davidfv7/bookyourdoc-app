@@ -84,7 +84,7 @@ $(document).ready(function(){
     var addr = $('#address').val().trim();
 
     $.ajax({
-      url: "http://localhost/bookyourdoc/sqlOP.php",
+      url: "https://www.icone-solutions.com/doct/sqlOP.php",
       type: "post",
       data:{ search:addr },
       success: function(data){
@@ -95,39 +95,46 @@ $(document).ready(function(){
 
          doctors.forEach(function(doctor){
 
+         doctor.offices.forEach(function(office){
+             icon={
+               url: "https://www.icone-solutions.com/doct/img/"+doctor.photo, // url
+               //url: 'https://icone-solutions.com/doct/img/1.png',
+               scaledSize: new google.maps.Size(70, 70), // scaled size
+               origin: new google.maps.Point(0,0), // origin
+               anchor: new google.maps.Point(0, 0) // anchor
+             };
+             console.log(office);
+             var content = '<center><h2>Dr.'+doctor.name+'</h2><h3>'+doctor.specialty+'</h3></center><p style="color: black;">' + office.address + '</p><center><a  class="showD" data-doct="' + doctor.doctor + '" data-transition="slide">Ver más</a ></center>';
 
-          icon={
-            url: "http://localhost/bookyourdoc/img/"+doctor.photo, // url
-            //url: 'https://icone-solutions.com/doct/img/1.png',
-            scaledSize: new google.maps.Size(70, 70), // scaled size
-            origin: new google.maps.Point(0,0), // origin
-            anchor: new google.maps.Point(0, 0) // anchor
-          };
-          var content = '<center><h2>Dr.'+doctor.name+'</h2><h3>'+doctor.specialty+'</h3></center><p style="color: black;">' + doctor.address + '</p><center><a  class="showD" data-doct="' + doctor.doctor + '" data-transition="slide">Ver más</a ></center>';
-          GMaps.geocode({
-            address: doctor.address,
-            callback: function(results, status){
-              if(status=='OK'){
-                var latlng = results[0].geometry.location;
-                map.setCenter(latlng.lat(), latlng.lng());
-                map.addMarker({
-                  lat: latlng.lat(),
-                  lng: latlng.lng(),
-                  /*click: function(e){
+             GMaps.geocode({
+               address: office.address,
+               callback: function(results, status){
+                   console.log(results);
+                 if(status=='OK'){
+                   var latlng = results[0].geometry.location;
+                   map.setCenter(latlng.lat(), latlng.lng());
+                   map.addMarker({
+                     lat: latlng.lat(),
+                     lng: latlng.lng(),
+                     /*click: function(e){
 
-                  }*/
-                  icon: icon,
-                  infoWindow: {
-                    content: content
-                  }
-                  /*icon: icon,
-                  infoWindow: {
-                    content: '<p style="color: black;">'+doctors[i][1]+'</p><br><a  class="showD" data-doct="'+doctors2+'" data-transition="slide">Ver más</a >'
-                  }*/
-                });
-              }
-            }
-          });
+                     }*/
+                     icon: icon,
+                     infoWindow: {
+                       content: content
+                     }
+                     /*icon: icon,
+                     infoWindow: {
+                       content: '<p style="color: black;">'+doctors[i][1]+'</p><br><a  class="showD" data-doct="'+doctors2+'" data-transition="slide">Ver más</a >'
+                     }*/
+                   });
+                 }
+               }
+             });
+         });
+
+
+
         });
         $.mobile.loading( "hide");
         map.setZoom(13);

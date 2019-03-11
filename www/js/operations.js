@@ -101,7 +101,7 @@ function getCon() {
   });
 
   /*$.ajax({
-    url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+    url: "https://www.icone-solutions.com/doct/sqlOP.php",
     type: "POST",
     data: {
       consulting: idu
@@ -179,7 +179,7 @@ function getHP(idc, date) {
       });
       var now = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
       $.ajax({
-        url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+        url: "https://www.icone-solutions.com/doct/sqlOP.php",
         type: "POST",
         data: {
           sdate: now,
@@ -247,7 +247,7 @@ function getPD() {
     $("#docP").attr("src", "https://www.icone-solutions.com/doct/img/"+user.info.photo);
   }
   /*$.ajax({
-      url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+      url: "https://www.icone-solutions.com/doct/sqlOP.php",
       type: "POST",
       data: {
           userPD: user,
@@ -288,7 +288,7 @@ function getEP() {
   var datap = localStorage.getItem("tipo");
 
   $.ajax({
-    url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+    url: "https://www.icone-solutions.com/doct/sqlOP.php",
     type: "POST",
     data: {
       paci: paci,
@@ -319,7 +319,7 @@ function getED() {
 
 
   /*$.ajax({
-      url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+      url: "https://www.icone-solutions.com/doct/sqlOP.php",
       type: "POST",
       data: {
           idm: idm,
@@ -603,7 +603,7 @@ function paymentList() {
 function getScheduleP() {
   var gd = localStorage.getItem("usi");
   $.ajax({
-    url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+    url: "https://www.icone-solutions.com/doct/sqlOP.php",
     type: "POST",
     data: {
       gdp: gd
@@ -856,17 +856,21 @@ function updateDD() {
 
 function updateDE() {
   var form = new FormData($("#datoseForm")[0]);
-  form.append("userm", localStorage.getItem("usi"));
+  var user = JSON.parse(localStorage.getItem("user"));
+  form.append("userm", user.id);
   $.ajax({
-    url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+    url: "https://www.icone-solutions.com/doct/sqlOP.php",
     type: "POST",
     data: form,
     contentType: false,
     cache: false,
     processData: false,
     success: function(data) {
-      if (data.toString() == "1") {
+      data=JSON.parse(data);
 
+      if (data.success) {
+        user.info = data.user;
+        localStorage.setItem("user",JSON.stringify(user));
         var nl = $("#expD").val().split("/");
         $("#expL").append("<li><div class='edate'>" + nl[0] + "</div> <div class='edesc'>" + nl[1] + ". " + nl[2] + "</div></li>")
         swal("Listo", "Tus datos han sido modificados.", "success");
@@ -907,7 +911,7 @@ function updateCD() {
       console.log(data);
       if (data.success) {
         user.offices = data.offices;
-        localStorage.setItem(JSON.stringify(user));
+        localStorage.setItem("user",JSON.stringify(user));
         swal("Listo", "Tus datos han sido guardados.", "success");
       } else {
         //swal("Error","No se han podido modificar tus datos, revisa tu conexión e intentalo de nuevo","error");
@@ -993,6 +997,7 @@ function login() {
       $("#passLogin").val("");
       $.mobile.loading("hide");
       data = jQuery.parseJSON(data);
+      console.log(data);
       if (data.success) {
 
         localStorage.setItem("user", JSON.stringify(data.user));
@@ -1036,7 +1041,7 @@ function recup() {
   console.log(t);
   var form = new FormData($('#recupForm')[0]);
   $.ajax({
-    url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+    url: "https://www.icone-solutions.com/doct/sqlOP.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -1087,7 +1092,7 @@ function nuevac() {
   var pass1 = $('#pass4').val();
   if (pass == pass1) {
     $.ajax({
-      url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+      url: "https://www.icone-solutions.com/doct/sqlOP.php",
       type: "POST",
       data: form,
       contentType: false,
@@ -1097,7 +1102,7 @@ function nuevac() {
         swal("Error", "Revisa tu conexión a internet.", "error")
       },
       success: function(data) {
-        console.log(data);
+
         $.mobile.loading("hide");
         //$("#logac").prop("disabled",false);
         if (data.toString() === "0") {
@@ -1132,7 +1137,7 @@ function register() {
     cache: false,
     processData: false,
     success: function(data) {
-
+      console.log(data);
       data = jQuery.parseJSON(data);
       if (data.success) {
         $("#nombre").val("");
@@ -1168,13 +1173,9 @@ function register() {
         }
 
 
-      } else if (data.toString() == "Error") {
+      } else  {
         //swal("Error",data.toString(),"error");
         swal("Error", "Este usuario ya ha sido registrado.", "error");
-      } else if (data.toString() == "Error1") {
-        swal("Error", "Este usuario ya ha sido registrado como doctor.", "error");
-      } else if (data.toString() == "Error2") {
-        swal("Error", "Este usuario ya ha sido registrado como paciente.", "error");
       }
       $("#rega").prop("disabled", false);
     },
@@ -1187,7 +1188,7 @@ function register() {
 
 function cancelC(idc) {
   $.ajax({
-    url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+    url: "https://www.icone-solutions.com/doct/sqlOP.php",
     type: "POST",
     data: {
       idc: idc
@@ -1370,7 +1371,7 @@ $(document).ready(function() {
                   });
                   var now = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
                   $.ajax({
-                    url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+                    url: "https://www.icone-solutions.com/doct/sqlOP.php",
                     type: "POST",
                     data: {
                       sdate: now,
@@ -1421,7 +1422,7 @@ $(document).ready(function() {
     transitionOut: 'bounceOutDown',
     onOpened: function(modal) {
       $.ajax({
-        url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+        url: "https://www.icone-solutions.com/doct/sqlOP.php",
         type: "POST",
         data: {
           citad: citap
@@ -2058,8 +2059,8 @@ $(document).ready(function() {
         console.log(data);
         var docts = jQuery.parseJSON(data);
         $("#doctP").val(docts[0][0]);
-        $("#imgd").css("background-image", "url('https://www.icone-solutions.com/doctt/img/" + docts[0][4] + "')");
-        $("#a-imgd").css("background-image", "url('https://www.icone-solutions.com/doctt/img/" + docts[0][4] + "')");
+        $("#imgd").css("background-image", "url('https://www.icone-solutions.com/doct/img/" + docts[0][4] + "')");
+        $("#a-imgd").css("background-image", "url('https://www.icone-solutions.com/doct/img/" + docts[0][4] + "')");
         $("#sdname").text(docts[0][1]);
         $("#a-sdname").text(docts[0][1]);
         $("#spec").text(docts[0][2]);
@@ -2173,7 +2174,7 @@ $(document).ready(function() {
       html: html
     });
     $.ajax({
-      url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+      url: "https://www.icone-solutions.com/doct/sqlOP.php",
       type: "POST",
       data: {
         etneicap: p
@@ -2182,7 +2183,7 @@ $(document).ready(function() {
         console.log(data);
         var docts = jQuery.parseJSON(data);
         //$("#doctP").val(docts[0][0]);
-        $("#imgp").css("background-image", "url('https://www.icone-solutions.com/doctt/img/" + docts[0][14] + "')");
+        $("#imgp").css("background-image", "url('https://www.icone-solutions.com/doct/img/" + docts[0][14] + "')");
         //$("#a-imgp").css("background-image", "url('http://www.icone-solutions.com/doct/img/"+docts[0][4]+"')");
         $("#spname").text(docts[0][0]);
         $("#psex").text(docts[0][2]);
@@ -2282,7 +2283,7 @@ $(document).ready(function() {
           });
           var now = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
           $.ajax({
-            url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+            url: "https://www.icone-solutions.com/doct/sqlOP.php",
             type: "POST",
             data: {
               sdate: now,
@@ -2344,7 +2345,7 @@ $(document).ready(function() {
         });
         var now = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
         $.ajax({
-          url: "https://www.icone-solutions.com/doctt/sqlOP.php",
+          url: "https://www.icone-solutions.com/doct/sqlOP.php",
           type: "POST",
           data: {
             sdate: now,
