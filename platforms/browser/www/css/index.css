@@ -24,10 +24,16 @@ body {
 .spacer{
   padding: 30px;
 }
-
+.timeContainer{
+    min-height: 70px;
+}
+.inputg.timePicker:disabled {
+  background: #dddddd;
+}
 .inputg.timePicker{
   float:left;
   width: 44% !important;
+
   margin: 0 3px;
   border-width: 1px;
   padding: 4px;
@@ -279,21 +285,7 @@ h3.study{
 	padding: 8px 15px;
 	transition: all ease  0.5s;
 }
-.sched{
-	text-decoration:none;
-	cursor:pointer;
-	border:none !important;
-	display:table;
-	margin:auto;
-	background: #00a6ff !important;
-	color: #fff !important;
-	padding: 8px 15px;
-	transition: all ease  0.5s;
-}
-.sched:hover,.schedb:hover,.schedb:focus,.sched:focus{
-	background: #fff !important;
-	color: #00a6ff  !important;
-}
+
 .loctimed{
 	padding: 0 15px;
 }
@@ -906,4 +898,19 @@ h1 {
 /* CHECKED STYLES */
 #regForm input[type=radio]:checked + img {
   outline: 2px solid #f00 !important;
+}
+.sched{
+	text-decoration:none;
+	cursor:pointer;
+	border:none !important;
+	display:table;
+	margin:auto;
+	background-color: #00a6ff !important;
+	color: #fff !important;
+	padding: 8px 15px;
+	transition: all ease  0.5s;
+}
+.sched:hover,.schedb:hover,.schedb:focus,.sched:focus{
+	background: #fff !important;
+	color: #00a6ff  !important;
 }

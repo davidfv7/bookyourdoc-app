@@ -1,8 +1,7 @@
 if (localStorage.getItem("user") != null) {
   var authUser = JSON.parse(localStorage.getItem("user"));
-
+paymentList();
   if (authUser.type == "pac" || authUser.type == "pacientes") {
-        paymentList();
     $('#ntpc').text('');
     $('#ntpc').text('BIENVENIDO@ ' + authUser.name);
     $.mobile.navigate("#menu", {
@@ -61,7 +60,7 @@ function getPac() {
       var docts = jQuery.parseJSON(data);
       for (var i = 0; i < docts.length; i++) {
         $("#pacUl").append(' <li><a class="showP" data-pac="' + docts[i][2] + '">' +
-          '<img src="https://www.icone-solutions.com/doct/img/' + docts[i][1] + '" />' +
+          '<img src="https://www.icone-solutions.com/doc/img/' + docts[i][1] + '" />' +
           '<span class="dname">' + docts[i][0] + '</span>' +
           '</a>' +
           '</li>')
@@ -233,18 +232,20 @@ function getPD() {
 
     $("#edadU").val(user.info.age);
 
-    $("#pacP").attr("src", "https://www.icone-solutions.com/doct/img/" + user.info.photo);
+    $("#pacP").attr("src", "https://www.icone-solutions.com/doc/img/" + user.info.photo);
     $('#sexoU').selectmenu('refresh', true);
     $('#ecU').selectmenu('refresh', true);
     $('#ahf').selectmenu('refresh', true);
     $('#hns').selectmenu('refresh', true);
   } else {
+    console.log(user);
     $("#nombreD").val(user.name);
     $("#apellD").val(user.last_names);
     $("#mailD").val(user.mail);
     $("#telD").val(user.info.phone);
+    $("#costoD").val(user.info.price);
 
-    $("#docP").attr("src", "https://www.icone-solutions.com/doct/img/"+user.info.photo);
+    $("#docP").attr("src", "https://www.icone-solutions.com/doc/img/"+user.info.photo);
   }
   /*$.ajax({
       url: "https://www.icone-solutions.com/doct/sqlOP.php",
@@ -550,6 +551,7 @@ function getAgenda() {
 }
 
 function paymentList() {
+  console.log("lalala");
   var user = JSON.parse(localStorage.getItem("user"));
   var pl = user.id
   $.ajax({
@@ -675,7 +677,7 @@ function pay() {
   form.append("patient", user.id);
   form.append("mcon", mcon);
   $.ajax({
-    url: "https://www.icone-solutions.com/doct/conekta.php",
+    url: "https://www.icone-solutions.com/doc/conekta.php",
     type: "POST",
     data: form,
     contentType: false,
@@ -829,7 +831,7 @@ function updateDD() {
     cache: false,
     processData: false,
     success: function(data) {
-      console.log(data);
+
       data = JSON.parse(data);
       if (data.success) {
         localStorage.setItem("user", JSON.stringify(data.user));
@@ -856,8 +858,7 @@ function updateDD() {
 
 function updateDE() {
   var form = new FormData($("#datoseForm")[0]);
-  var user = JSON.parse(localStorage.getItem("user"));
-  form.append("userm", user.id);
+  form.append("userm", localStorage.getItem("usi"));
   $.ajax({
     url: "https://www.icone-solutions.com/doct/sqlOP.php",
     type: "POST",
@@ -866,11 +867,8 @@ function updateDE() {
     cache: false,
     processData: false,
     success: function(data) {
-      data=JSON.parse(data);
+      if (data.toString() == "1") {
 
-      if (data.success) {
-        user.info = data.user;
-        localStorage.setItem("user",JSON.stringify(user));
         var nl = $("#expD").val().split("/");
         $("#expL").append("<li><div class='edate'>" + nl[0] + "</div> <div class='edesc'>" + nl[1] + ". " + nl[2] + "</div></li>")
         swal("Listo", "Tus datos han sido modificados.", "success");
@@ -908,7 +906,7 @@ function updateCD() {
     processData: false,
     success: function(data) {
       data = JSON.parse(data);
-      console.log(data);
+
       if (data.success) {
         user.offices = data.offices;
         localStorage.setItem("user",JSON.stringify(user));
@@ -977,6 +975,44 @@ function reSchedule(appointment) {
   });
 }
 
+function reScheduled(appointment) {
+  var form = new FormData($("#repdForm")[0]);
+
+  $.ajax({
+    url: "https://www.icone-solutions.com/doct/sqlOP.php",
+    type: "POST",
+    data: form,
+    contentType: false,
+    cache: false,
+    processData: false,
+    error: function(xhr, settings, exception) {
+
+      swal("Error", "Revisa tu conexión a internet.", "error")
+    },
+    success: function(data) {
+      data = JSON.parse(data);
+      if (data.success) {
+        var newdate = data.appointment.date + " " + data.appointment.hour;
+        var newEv = [{
+          start: newdate,
+          title: "Nueva Cita",
+          id: appointment
+        }];
+        $("#calendarsD").fullCalendar('removeEvents', [appointment]);
+        $("#calendarsD").fullCalendar('addEventSource', newEv);
+
+        $('.modalSch').iziModal('close');
+        swal("Listo", "Tu cita ha sido reprogramada.", "success");
+      } else {
+        $('.modalSch').iziModal('close');
+
+        swal("Listo", "Ocurrio un error al hacer tu cambio, por favor inténtalo de nuevo.", "error");
+      }
+
+    }
+  });
+}
+
 function login() {
 
   var form = new FormData($("#loginForm")[0]);
@@ -997,7 +1033,6 @@ function login() {
       $("#passLogin").val("");
       $.mobile.loading("hide");
       data = jQuery.parseJSON(data);
-      console.log(data);
       if (data.success) {
 
         localStorage.setItem("user", JSON.stringify(data.user));
@@ -1102,7 +1137,7 @@ function nuevac() {
         swal("Error", "Revisa tu conexión a internet.", "error")
       },
       success: function(data) {
-
+        console.log(data);
         $.mobile.loading("hide");
         //$("#logac").prop("disabled",false);
         if (data.toString() === "0") {
@@ -1127,7 +1162,6 @@ function nuevac() {
 }
 
 function register() {
-
   var form = new FormData($("#regForm")[0]);
   $.ajax({
     url: "https://www.icone-solutions.com/doct/sqlOP.php",
@@ -1173,9 +1207,13 @@ function register() {
         }
 
 
-      } else  {
+      } else if (data.toString() == "Error") {
         //swal("Error",data.toString(),"error");
         swal("Error", "Este usuario ya ha sido registrado.", "error");
+      } else if (data.toString() == "Error1") {
+        swal("Error", "Este usuario ya ha sido registrado como doctor.", "error");
+      } else if (data.toString() == "Error2") {
+        swal("Error", "Este usuario ya ha sido registrado como paciente.", "error");
       }
       $("#rega").prop("disabled", false);
     },
@@ -1430,12 +1468,121 @@ $(document).ready(function() {
         success: function(data) {
           var jobj = jQuery.parseJSON(data);
           modal.stopLoading();
+          var user = JSON.parse(localStorage.getItem("user"));
+          console.log(user);
           $(".doctN").text(jobj[0][2]);
           $(".doctM").text(jobj[0][5]);
           $(".doctPh").text(jobj[0][4]);
           $(".cdate").text(jobj[0][0]);
           $(".hdate").text(jobj[0][1]);
+          $("#datedId").val(citap);
           $(".citaI").css("background-image", "url(" + jobj[0][3] + ")");
+          /////////////////////
+          $.ajax({
+            url: "https://www.icone-solutions.com/doct/sqlOP.php",
+            type: "POST",
+            data: {
+              doctorR: user.id,
+            },
+            success: function(response) {
+              console.log(response);
+              var docts = jQuery.parseJSON(response);
+
+              var i;
+              //var c = docts[0][16].length;
+              //var d = docts[0][16];
+              //console.log(c);
+
+              weekend = docts.lvm;
+              saturday = docts.sm;
+              sunday = docts.dm;
+              allowed = docts.hours;
+              var d = new Date();
+              var dd = d.getDate();
+              var mm = d.getMonth() + 1; //January is 0!
+
+              var yyyy = d.getFullYear();
+              if (dd < 10) {
+                dd = '0' + dd;
+              }
+              if (mm < 10) {
+                mm = '0' + mm;
+              }
+
+              todaytp = yyyy + '-' + mm + '-' + dd;
+              if (allowed.length == 0) {
+
+                disabledt = [todaytp];
+                dd = '0' + (d.getDate() + 1);
+                todaytp = yyyy + '-' + mm + '-' + dd;
+
+              } else {
+                disabledt = [];
+              }
+              var disabled = [];
+              var allowedt = [];
+              if (weekend[0] == "Cerrado") {
+                disabled.push(1);
+                disabled.push(2);
+                disabled.push(3);
+                disabled.push(4);
+                disabled.push(5);
+              }
+              if (saturday[0] == "Cerrado") {
+                disabled.push(6);
+              }
+              if (sunday[0] == "Cerrado") {
+                disabled.push(0);
+              }
+              $('#timeD').datetimepicker({
+                formatDate: 'Y-m-d',
+                formatTime: 'H:i',
+                defaultTime: "9:00",
+                disabledWeekDays: disabled,
+                allowTimes: allowed,
+                minDate: todaytp,
+                startDate: todaytp,
+                onSelectDate: function(ct, $i) {
+
+                  var d = new Date(ct);
+                  html = $(this).jqmData("html") || "";
+                  $.mobile.loading("show", {
+                    text: "Cargando Horarios",
+                    textVisible: true,
+                    theme: "b",
+                    textonly: false,
+                    html: html
+                  });
+                  var now = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+                  $.ajax({
+                    url: "https://www.icone-solutions.com/doct/sqlOP.php",
+                    type: "POST",
+                    data: {
+                      sdate: now,
+                      cd: 1
+                    },
+                    success: function(data) {
+
+                      $.mobile.loading("hide");
+                      allowed = jQuery.parseJSON(data);
+
+                      $i.datetimepicker('setOptions', {
+                        allowTimes: allowed
+                      });
+
+                    },
+                    error: function() {
+                      swal("Error", "No se ha podido conectar al servidor, revisa tu conexión", "error");
+                    }
+                  })
+
+
+                }
+              });
+
+
+            }
+          });
         },
         error: function() {
           modal.stopLoading();
@@ -1489,7 +1636,7 @@ $(document).ready(function() {
     $("#expD").inputmask({
       mask: "9999 / c{5,256} / c{11,256}",
       onincomplete: function() {
-        $(this).val("")
+        //$(this).val("")
       }
     });
     //  $("#expD").inputmask("9999 / *{5,256} / *{11,256}");
@@ -1648,7 +1795,7 @@ $(document).ready(function() {
     });
 
   });
-
+  //;
   $('#loginForm').submit(function(e) {
     e.preventDefault();
     html = $(this).jqmData("html") || "";
@@ -1732,6 +1879,45 @@ $(document).ready(function() {
 
   });
 
+  $('#repdForm').submit(function(e) {
+    e.preventDefault();
+    if ($("#timeD").val() != "") {
+      var check = $("#timeD").val();
+      var cita = $("#datedId").val();
+      var doct = JSON.parse(localStorage.getItem("user")).mail;
+
+      $.ajax({
+        url: "https://www.icone-solutions.com/doct/sqlOP.php",
+        type: "POST",
+        data: {
+          checkds: check,
+          docd: doct,
+          appointment: cita
+
+        },
+        success: function(data) {
+          data = JSON.parse(data);
+
+          if (data.success) {
+            reScheduled(data.appointment.id);
+          } else {
+            swal("Error", data.toString(), "error");
+          }
+
+        },
+        error: function() {
+
+          swal("Error", "Revisa tu conexión de internet.", "error");
+        }
+      })
+
+    } else {
+      swal("Elige una fecha para continuar", "", "info");
+    }
+
+
+  });
+
 
   $("#payForm").submit(function(e) {
     e.preventDefault();
@@ -1788,7 +1974,6 @@ $(document).ready(function() {
 
   $("#regForm").submit(function(e) {
     e.preventDefault();
-    console.log("lalalala");
     var empty = $(this).find("input").filter(function() {
 
       return this.value === "";
@@ -1809,8 +1994,7 @@ $(document).ready(function() {
           },
           function(isConfirm) {
             if (isConfirm) {
-                console.log("mamama");
-              register();
+              register("#regForm");
             }
           });
       } else {
@@ -1903,15 +2087,23 @@ $(document).ready(function() {
     }
 
   });
-
+  $("#closesLV").click(function(e){
+     $('.closesLV').prop('disabled', function(i, v) { return !v; });
+  });
+  $("#closesS").click(function(e){
+     $('.closesS').prop('disabled', function(i, v) { return !v; });
+  });
+  $("#closesD").click(function(e){
+     $('.closesD').prop('disabled', function(i, v) { return !v; });
+  });
   $("#datosConsul").submit(function(e) {
     e.preventDefault();
     var flag=true;
     $('#datosConsul input[type!=submit]').each(function(){
        //If the field's empty
-       if($(this).val() == '')
+       if($(this).val() == '' && $(this).is(':enabled'))
        {
-         console.log($(this));
+
           flag=false;
 
           return false;
@@ -2139,7 +2331,7 @@ $(document).ready(function() {
         var docts = jQuery.parseJSON(data);
         for (var i = 0; i < docts.length; i++) {
           $("#doctUl").append(' <li><a class="showD" data-doct="' + docts[i][4] + '">' +
-            '<img src="https://www.icone-solutions.com/doct/img/' + docts[i][3] + '" />' +
+            '<img src="https://www.icone-solutions.com/doc/img/' + docts[i][3] + '" />' +
             '<span class="dname">' + docts[i][0] + '</span>' +
             '<span class="scp">' + docts[i][1] + '</span>' +
             '<span class="scp">Consulta: $' + docts[i][2] + '</span>' +
